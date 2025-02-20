@@ -2,6 +2,7 @@
 // @name         Enhanced Past Tense Verb Highlighter
 // @namespace    http://tampermonkey.net/
 // @version      0.4
+// @author       花开半步癫
 // @description  Hide past tense verbs, show base form on hover, and reveal past tense on click with improved accuracy
 // @match        *://*/*
 // @grant        none
@@ -237,6 +238,10 @@
             if (verb.endsWith('eed')) {
                 return verb.slice(0, -1);
             }
+            // 处理辅音字母+e+d结尾的情况，如'settled' -> 'settle'
+            if (verb.length > 3 && !isVowel(verb[verb.length - 4]) && verb[verb.length - 3] === 'e') {
+                return verb.slice(0, -1);
+            }
             // 如果动词以'e'结尾加'd',只去掉'd'
             if (verb.length > 3 && verb[verb.length - 3] === 'e') {
                 return verb.slice(0, -1);
@@ -263,6 +268,11 @@
         
         // 如果不符合上述规则,返回原形
         return verb;
+    }
+
+    // 添加一个辅助函数来判断是否为元音
+    function isVowel(char) {
+        return /[aeiou]/i.test(char);
     }
 
     // 创建隐藏的span元素
