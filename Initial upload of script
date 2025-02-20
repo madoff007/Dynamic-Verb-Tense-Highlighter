@@ -9,40 +9,6 @@
 
 (function() {
     'use strict';
-// @require https://mozilla.github.io/pdf.js/build/pdf.js
-
-    // 检查是否为PDF文件
-    if (document.contentType === 'application/pdf') {
-        extractTextFromPDF(document.location.href).then(function(text) {
-            // 应用您现有的过去式识别逻辑到提取的文本
-            console.log("Extracted text from PDF:", text);
-            // 这里可以调用现有的处理逻辑
-        }).catch(function(error) {
-            console.error("Error extracting text from PDF:", error);
-        });
-    } else {
-        // 原有的网页处理逻辑
-        walkTextNodes(document.body);
-    }
-
-    function extractTextFromPDF(pdfUrl) {
-        return pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
-            let pages = [];
-            for(let i = 1; i <= pdf.numPages; i++) {
-                pages.push(i);
-            }
-            return Promise.all(pages.map(function(num) {
-                return pdf.getPage(num).then(function(page) {
-                    return page.getTextContent().then(function(content) {
-                        return content.items.map(item => item.str).join(' ');
-                    });
-                });
-            })).then(function(texts) {
-                return texts.join(' ');
-            });
-        });
-    }
-
     // 扩展的不规则动词词典
     const irregularVerbs = {
     'arose': 'arise',
