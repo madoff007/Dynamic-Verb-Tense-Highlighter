@@ -238,6 +238,22 @@
             if (verb.endsWith('eed')) {
                 return verb.slice(0, -1);
             }
+            // 处理以 ved 结尾的情况（如 involved -> involve）
+            if (verb.endsWith('ved')) {
+                return verb.slice(0, -1);
+            }
+            // 处理以 cess+ed 结尾的情况（如 processed -> process）
+            if (verb.endsWith('cessed')) {
+                return verb.slice(0, -2);
+            }
+            // 处理以 le/ge/se/ce 结尾加 d 的情况
+            if (verb.length > 3 && /(le|ge|se|ce)d$/.test(verb)) {
+                return verb.slice(0, -1);
+            }
+            // 处理以 ess+ed 结尾的情况（如 processed -> process）
+            if (verb.endsWith('essed')) {
+                return verb.slice(0, -2);
+            }
             // 处理辅音字母+e+d结尾的情况，如'settled' -> 'settle'
             if (verb.length > 3 && !isVowel(verb[verb.length - 4]) && verb[verb.length - 3] === 'e') {
                 return verb.slice(0, -1);
