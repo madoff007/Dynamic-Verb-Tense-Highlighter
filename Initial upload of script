@@ -43,8 +43,6 @@
         });
     }
 
-    // ... existing code ...
-})();
     // 扩展的不规则动词词典
     const irregularVerbs = {
     'arose': 'arise',
@@ -285,10 +283,16 @@
             if (verb.endsWith('ied')) {
                 return verb.slice(0, -3) + 'y';
             }
-            // 处理以'e'结尾的动词，去掉'ed'
-            if (verb.length > 3 && verb[verb.length - 3] !== 'e') {
+            // 处理以辅音字母加'y'结尾的情况,如'studied' -> 'study'
+            if (verb.endsWith('ied')) {
+                return verb.slice(0, -3) + 'y';
+            }
+            // 处理以元音字母加'y'结尾的情况,如'played' -> 'play'
+            if (verb.endsWith('yed')) {
                 return verb.slice(0, -2);
             }
+            // 一般情况去掉'ed'
+            return verb.slice(0, -2);
         }
         
         // 如果不符合上述规则,返回原形
